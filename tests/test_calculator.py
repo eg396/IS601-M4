@@ -4,7 +4,7 @@
 
 import sys
 from io import StringIO
-from app.calculator import calculator
+from app.calculator import calculator, is_float
 
 ## Monkeypatch for input handling
 
@@ -49,12 +49,28 @@ def test_invalid_operation(monkeypatch):
     output = run_calculator_with_input(monkeypatch, inputs)
     assert "Invalid operation. Please try again." in output
 
-def test_invalid_input(monkeypatch):
+def test_invalid_parameter_count(monkeypatch):
+    inputs = ['add 1', 'quit']
+    output = run_calculator_with_input(monkeypatch, inputs)
+    assert "Invalid parameters. 3 Parameters are required (operation, num1, num2). Please try again." in output
+
+def test_invalid_floats(monkeypatch):
     inputs = ['add one 2', 'quit']
     output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Invalid input. Please try again." in output
+    assert "Invalid parameters. Parameters 2 and 3 must be valid floats. Please try again." in output
 
 def test_exit(monkeypatch):
     inputs = ['quit']
     output = run_calculator_with_input(monkeypatch, inputs)
     assert "Goodbye!" in output
+
+## Helper function tests for is_float
+
+def test_is_float():
+    assert is_float('1')
+
+def test_is_negative_float():
+    assert is_float('-1')
+
+def test_is_not_float():
+    assert not is_float('1.1.1')
