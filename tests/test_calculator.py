@@ -1,6 +1,6 @@
 ## Interface Tests
 ## Evan Garvey
-## IS 601, Module 3
+## IS 601, Module 4
 
 import sys
 from io import StringIO

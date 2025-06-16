@@ -1,6 +1,6 @@
 ## Calculator backend
 ## Evan Garvey
-## IS 601, Module 3
+## IS 601, Module 4
 
 
 ## Fairly simple implementation here as all the work is done elsewhere
