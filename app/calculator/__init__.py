@@ -5,8 +5,17 @@
 from app.operations import add, subtract, multiply, divide
 
 
-## This calculator is heavily based on the previous calculator that we made in module 2.
-## However, this time, I have started completely from scratch and will only be referencing module 2 for the operations.
+## This calculator is heavily based on the previous calculator that we made in module 3.
+## I am performing changes where needed (primarily in the error handling) in order to ensure best practices
+
+def is_float(num):
+    if num.count('.') > 1:
+        return False
+    if num[0] == '-':
+        num = num[1:]
+    return num.replace('.', '', 1).isdigit()
+
+
 def calculator():
 
     print("Welcome to the Calculator Interface! Type 'quit' at any time to exit.")
@@ -23,16 +32,31 @@ def calculator():
             break
 
         ## Check if operation is in valid form
+        ## This, as well as is_float, follow LBYL
 
-        try:
-
-            operation, num1, num2 = user_input.split()
-            num1, num2 = float(num1), float(num2)
-
-        except ValueError:
-
-            print("Invalid input. Please try again.")
+        if len(user_input.split()) != 3:
+            print("Invalid parameters. 3 Parameters are required (operation, num1, num2). Please try again.")
             continue
+
+        operation, num1, num2 = user_input.split()
+
+        if not (is_float(num1) and is_float(num2)):
+            print("Invalid parameters. Parameters 2 and 3 must be valid floats. Please try again.")
+            continue
+
+        num1, num2 = float(num1), float(num2)
+
+#        Old approach, was EAFP but has been replaced by LBYL
+#
+#        try:
+#
+#            operation, num1, num2 = user_input.split()
+#            num1, num2 = float(num1), float(num2)
+#
+#        except ValueError:
+#
+#            print("Invalid input. Please try again.")
+#            continue
 
         ## Once operation has been validated, parse and compute
 
@@ -48,6 +72,8 @@ def calculator():
         ## Division is a bit tricky as we have to watch out for division by 0
 
         elif operation == "divide":
+
+            ## Example of EAFP approach
 
             try:
                 result = divide(num1, num2)
