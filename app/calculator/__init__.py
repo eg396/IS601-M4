@@ -19,29 +19,29 @@ def is_float(num):
 def calculator():
 
     print("Welcome to the Calculator Interface! Type 'quit' at any time to exit.")
-    print("_____________________________________________________________________")
+    print()
 
     while True:
 
-        user_input = input("Enter a desired operation (add, subtract, multiply, divide), and then two numbers separated by a space. Type 'quit' to exit. \n")
+        user_input = input("Enter a desired operation (add, subtract, multiply, divide), and then two numbers separated by a space. Type 'quit' to exit. \n\n")
 
         ## Check if an exit is desired
 
         if user_input.lower() == "quit":
-            print("Goodbye!")
+            print("\nGoodbye!\n")
             break
 
         ## Check if operation is in valid form
         ## This, as well as is_float, follow LBYL
 
         if len(user_input.split()) != 3:
-            print("Invalid parameters. 3 Parameters are required (operation, num1, num2). Please try again.")
+            print("\nInvalid parameters. 3 Parameters are required (operation, num1, num2). Please try again.\n")
             continue
 
         operation, num1, num2 = user_input.split()
 
         if not (is_float(num1) and is_float(num2)):
-            print("Invalid parameters. Parameters 2 and 3 must be valid floats. Please try again.")
+            print("\nInvalid parameters. Parameters 2 and 3 must be valid floats. Please try again.\n")
             continue
 
         num1, num2 = float(num1), float(num2)
@@ -86,4 +86,6 @@ def calculator():
             print("Invalid operation. Please try again.")
             continue
 
+        print()
         print(f"Result: {result}")
+        print()
