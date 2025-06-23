@@ -118,3 +118,81 @@ class CalculationFactory:
             raise ValueError(f"Invalid calculation type: {type}. Available types: {available_types}")
         
         return calculation_class(num1, num2)
+    
+## Concrete calculation classes
+
+@CalculationFactory.register_calculation('add')
+class AddCalculation(Calculation):
+
+    ## Subclass of Calculation for addition.
+
+    def execute(self) -> float:
+
+        ## Executes addition calculation and returns the result.
+
+        ## Params:
+        ## num1: float
+        ## num2: float
+
+        ## Returns:
+        ## float: The result of addition
+
+        return Operations.add(self.num1, self.num2)
+        
+@CalculationFactory.register_calculation('subtract')
+class SubtractCalculation(Calculation):
+
+    ## Subclass of Calculation for subtraction.
+
+    def execute(self) -> float:
+
+        ## Executes subtraction calculation and returns the result.
+
+        ## Params:
+        ## num1: float
+        ## num2: float
+
+        ## Returns:
+        ## float: The result of subtraction
+
+        return Operations.subtract(self.num1, self.num2)
+        
+@CalculationFactory.register_calculation('multiply')
+class MultiplyCalculation(Calculation):
+
+    ## Subclass of Calculation for multiplication.
+
+    def execute(self) -> float:
+
+        ## Executes multiplication calculation and returns the result.
+
+        ## Params:
+        ## num1: float
+        ## num2: float
+
+        ## Returns:
+        ## float: The result of multiplication
+
+        return Operations.multiply(self.num1, self.num2)
+        
+@CalculationFactory.register_calculation('divide')
+class DivideCalculation(Calculation):
+
+    ## Subclass of Calculation for division.
+
+    def execute(self) -> float:
+
+        ## Executes division calculation and returns the result.
+
+        ## Params:
+        ## num1: float
+        ## num2: float
+
+        ## Returns:
+        ## float: The result of division
+
+        if self.num2 == 0:
+
+            raise ValueError("Division by zero is not allowed.")
+            
+        return Operations.divide(self.num1, self.num2)
