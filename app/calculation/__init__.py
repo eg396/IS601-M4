@@ -12,7 +12,6 @@ from app.operations import Operations
 
 class Calculation(ABC):
 
-    @abstractmethod
     def __init__(self, num1: float, num2: float) -> None:
 
         ## Initializes the two parameters as floats.
@@ -37,7 +36,7 @@ class Calculation(ABC):
 
         pass    ## pragma: no cover
 
-    def __str___(self) -> str:
+    def __str__(self) -> str:
 
         ## Returns a string representation of the calculation instance
 
@@ -45,12 +44,12 @@ class Calculation(ABC):
         ## str: A string representation of the calculation
 
         result = self.execute()
-        operation = self.__class__.__name__.replace('Calculation', '')
-        return f"{self.__class__.__name__}: {self.num1} {operation} {self.num2} = {result}"
+        operation_name = self.__class__.__name__.replace('Calculation', '')
+        return f"{self.__class__.__name__}: {self.num1} {operation_name} {self.num2} = {result}"
     
     def __repr__(self) -> str:
 
-        ## Returns a string representation of the calculation instance
+        ## Provides a technical representation of the calculation instance
 
         ## Returns:
         ## str: A string representation of the calculation

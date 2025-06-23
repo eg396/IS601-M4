@@ -31,7 +31,7 @@ def display_help() -> None:
     Special Commands:
         help: Display this message
         history: Display the command history
-        quit: Exit the calculator
+        exit: Exit the calculator
 
     Examples: 
         add 1 2
@@ -70,7 +70,7 @@ def calculator() -> None:
     history: List[Calculation] = []
 
     print("Welcome to the professional REPL Calculator interface!")
-    print("Type 'help' for more information, or 'quit' to exit.")
+    print("Type 'help' for more information, or 'exit' to exit.")
 
     while True:
 
@@ -123,7 +123,9 @@ def calculator() -> None:
 
             try:
 
+                print("Executing calculation...")
                 result = calculation.execute()
+                print(result)
 
             except ZeroDivisionError:
 
