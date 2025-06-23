@@ -4,7 +4,7 @@
 
 import sys
 from io import StringIO
-from app.calculator import calculator, is_float
+from app.calculator import calculator, display_help, display_history
 
 ## Monkeypatch for input handling
 
@@ -19,58 +19,60 @@ def run_calculator_with_input(monkeypatch, inputs):
 
 ## Tests
 
-def test_addition(monkeypatch):
-    inputs = ['add 1 2', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 3.0" in output
+def test_display_help(capsys):
 
-def test_subtraction(monkeypatch):
-    inputs = ['subtract 1 2', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: -1.0" in output
+    display_help()
+    capture = capsys.readouterr()
+    expected_output = """
+    REPL Calculator help
+          
+    Usage:
+        <operation> <num1> <num2>
+        Perform a specified operation on two submitted numbers.
+        Supported operations: 
+            add: adds two numbers
+            subtract: subtracts two numbers
+            multiply: multiplies two numbers
+            divide: divides two numbers
 
-def test_multiplication(monkeypatch):
-    inputs = ['multiply 2 3', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 6.0" in output
+    Special Commands:
+        help: Display this message
+        history: Display the command history
+        quit: Exit the calculator
 
-def test_division(monkeypatch):
-    inputs = ['divide 10 2', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 5.0" in output
+    Examples: 
+        add 1 2
+        subtract 1 2
+        multiply 1 2
+        divide 1 2
+    """
+    assert capture.out.strip() == expected_output.strip()
 
-def test_division_by_zero(monkeypatch):
-    inputs = ['divide 10 0', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Cannot divide by zero. Please try again." in output
+def test_display_history_empty(capsys):
 
-def test_invalid_operation(monkeypatch):
-    inputs = ['exponent 1 2', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Invalid operation. Please try again." in output
+    history = []
 
-def test_invalid_parameter_count(monkeypatch):
-    inputs = ['add 1', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Invalid parameters. 3 Parameters are required (operation, num1, num2). Please try again." in output
+    display_history(history)
 
-def test_invalid_floats(monkeypatch):
-    inputs = ['add one 2', 'quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Invalid parameters. Parameters 2 and 3 must be valid floats. Please try again." in output
+    capture = capsys.readouterr()
+    assert capture.out.strip() == "Error: No calculations in history."
 
-def test_exit(monkeypatch):
-    inputs = ['quit']
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Goodbye!" in output
+def test_display_history_nonempty(capsys):
 
-## Helper function tests for is_float
+    history = [
+        "AddCalculation: 15.0 add 5.0 = 20.0",
+        "SubtractCalculation: 20.0 subtract 5.0 = 15.0",
+        "MultiplyCalculation: 15.0 multiply 5.0 = 75.0",
+        "DivideCalculation: 75.0 divide 5.0 = 15.0"
+    ]
 
-def test_is_float():
-    assert is_float('1')
+    display_history(history)
 
-def test_is_negative_float():
-    assert is_float('-1')
+    capture = capsys.readouterr()
+    assert capture.out.strip() == """
+    Calculation History:
+    1. AddCalculation: 15.0 add 5.0 = 20.0
+    2. SubtractCalculation: 20.0 subtract 5.0 = 15.0
+    3. MultiplyCalculation: 15.0 multiply 5.0 = 75.0
+    4. DivideCalculation: 75.0 divide 5.0 = 15.0""".strip()
 
-def test_is_not_float():
-    assert not is_float('1.1.1')
