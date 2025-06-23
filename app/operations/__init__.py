@@ -5,78 +5,81 @@
 
 ## Fairly simple implementation here as all the work is done elsewhere
 
-@staticmethod
-def add(num1: float, num2: float) -> float:
 
-    ## Adds 2 numbers and returns the result.
+class Operations:
+    
+    @staticmethod
+    def add(num1: float, num2: float) -> float:
 
-    ## Params:
-    ## num1: float
-    ## num2: float
+        ## Adds 2 numbers and returns the result.
 
-    ## Returns:
-    ## num1 + num2: float
+        ## Params:
+        ## num1: float
+        ## num2: float
 
-    ## example:
-    ## >>> add(1, 2)
-    ## 3.0
+        ## Returns:
+        ## num1 + num2: float
 
-    return num1 + num2
+        ## example:
+        ## >>> add(1, 2)
+        ## 3.0
 
-@staticmethod
-def subtract(num1: float, num2: float) -> float:
+        return num1 + num2
 
-    ## Subtracts 2 numbers and returns the result.
+    @staticmethod
+    def subtract(num1: float, num2: float) -> float:
 
-    ## Params:
-    ## num1: float
-    ## num2: float
+        ## Subtracts 2 numbers and returns the result.
 
-    ## Returns:
-    ## num1 - num2: float
+        ## Params:
+        ## num1: float
+        ## num2: float
 
-    ## example:
-    ## >>> subtract(1, 2)
-    ## -1.0
+        ## Returns:
+        ## num1 - num2: float
 
-    return num1 - num2
+        ## example:
+        ## >>> subtract(1, 2)
+        ## -1.0
 
-@staticmethod
-def multiply(num1: float, num2: float) -> float:
+        return num1 - num2
 
-    ## Multiplies 2 numbers and returns the result.
+    @staticmethod
+    def multiply(num1: float, num2: float) -> float:
 
-    ## Params:
-    ## num1: float
-    ## num2: float
+        ## Multiplies 2 numbers and returns the result.
 
-    ## Returns:
-    ## num1 * num2: float
+        ## Params:
+        ## num1: float
+        ## num2: float
 
-    ## example:
-    ## >>> multiply(1, 2)
-    ## 2.0
+        ## Returns:
+        ## num1 * num2: float
 
-    return num1 * num2
+        ## example:
+        ## >>> multiply(1, 2)
+        ## 2.0
 
-@staticmethod
-def divide(num1: float, num2: float) -> float:
+        return num1 * num2
 
-    ## Divides 2 numbers and returns the result.
+    @staticmethod
+    def divide(num1: float, num2: float) -> float:
 
-    ## Params:
-    ## num1: float
-    ## num2: float
+        ## Divides 2 numbers and returns the result.
 
-    ## Returns:
-    ## num1 / num2: float
+        ## Params:
+        ## num1: float
+        ## num2: float
 
-    ## example:
-    ## >>> divide(1, 2)
-    ## 0.5
+        ## Returns:
+        ## num1 / num2: float
 
-    ## divide by zero is handled in the calculator.py
+        ## example:
+        ## >>> divide(1, 2)
+        ## 0.5
 
-    return num1 / num2
+        ## divide by zero is handled in the calculator.py
 
-## TODO: possibly more operations? ie factorial, exponent, etc
+        return num1 / num2
+
+    ## TODO: possibly more operations? ie factorial, exponent, etc
