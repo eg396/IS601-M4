@@ -2,90 +2,157 @@
 ## Evan Garvey
 ## IS 601, Module 4
 
-from app.operations import add, subtract, multiply, divide
+## Import many things
+
+import sys
+import readline
+from typing import List
+from app.calculation import CalculationFactory, Calculation
+
+def display_help() -> None:
+
+    ## Displays info for the user
+
+    ## Returns:
+    ## N/A
+
+    help_text = """
+    REPL Calculator help
+          
+    Usage:
+        <operation> <num1> <num2>
+        Perform a specified operation on two submitted numbers.
+        Supported operations: 
+            add: adds two numbers
+            subtract: subtracts two numbers
+            multiply: multiplies two numbers
+            divide: divides two numbers
+
+    Special Commands:
+        help: Display this message
+        history: Display the command history
+        quit: Exit the calculator
+
+    Examples: 
+        add 1 2
+        subtract 1 2
+        multiply 1 2
+        divide 1 2
+    """
+
+    print(help_text)
+
+def display_history(history: List[Calculation]) -> None:
+
+    ## Displays the command history
+
+    ## Params:
+    ## history: List[str]
+
+    ## Returns:
+    ## N/A
+
+    if not history:
+        print("Error: No calculations in history.")
+    else:
+        print("Calculation History:")
+        for idx, calculation in enumerate(history, start=1):
+            print(f"{idx}. {calculation}")
 
 
-## This calculator is heavily based on the previous calculator that we made in module 3.
-## I am performing changes where needed (primarily in the error handling) in order to ensure best practices
+def calculator() -> None:
 
-def is_float(num):
-    if num.count('.') > 1:
-        return False
-    if num[0] == '-':
-        num = num[1:]
-    return num.replace('.', '', 1).isdigit()
+    ## Main calculator function
 
+    ## Returns:
+    ## N/A
 
-def calculator():
+    history: List[Calculation] = []
 
-    print("Welcome to the Calculator Interface! Type 'quit' at any time to exit.")
-    print()
+    print("Welcome to the professional REPL Calculator interface!")
+    print("Type 'help' for more information, or 'quit' to exit.")
 
     while True:
 
-        user_input = input("Enter a desired operation (add, subtract, multiply, divide), and then two numbers separated by a space. Type 'quit' to exit. \n\n")
+        try:
 
-        ## Check if an exit is desired
+            user_input: str = input(">> ").strip()
 
-        if user_input.lower() == "quit":
-            print("\nGoodbye!\n")
-            break
+            if not user_input:
 
-        ## Check if operation is in valid form
-        ## This, as well as is_float, follow LBYL
-
-        if len(user_input.split()) != 3:
-            print("\nInvalid parameters. 3 Parameters are required (operation, num1, num2). Please try again.\n")
-            continue
-
-        operation, num1, num2 = user_input.split()
-
-        if not (is_float(num1) and is_float(num2)):
-            print("\nInvalid parameters. Parameters 2 and 3 must be valid floats. Please try again.\n")
-            continue
-
-        num1, num2 = float(num1), float(num2)
-
-#        Old approach, was EAFP but has been replaced by LBYL
-#
-#        try:
-#
-#            operation, num1, num2 = user_input.split()
-#            num1, num2 = float(num1), float(num2)
-#
-#        except ValueError:
-#
-#            print("Invalid input. Please try again.")
-#            continue
-
-        ## Once operation has been validated, parse and compute
-
-        if operation == "add":
-            result = add(num1, num2)
-
-        elif operation == "subtract":
-            result = subtract(num1, num2)
-
-        elif operation == "multiply":
-            result = multiply(num1, num2)
-
-        ## Division is a bit tricky as we have to watch out for division by 0
-
-        elif operation == "divide":
-
-            ## Example of EAFP approach
-
-            try:
-                result = divide(num1, num2)
-
-            except ZeroDivisionError:
-                print("Cannot divide by zero. Please try again.")
                 continue
 
-        else:
-            print("Invalid operation. Please try again.")
-            continue
+            command = user_input.lower()
+            if command == "help":
 
-        print()
-        print(f"Result: {result}")
-        print()
+                display_help()
+                continue
+
+            elif command == "history":
+
+                display_history(history)
+                continue
+
+            elif command == "exit":
+
+                print("Goodbye!")
+                sys.exit(0)
+
+            try:
+
+                operation, str1, str2 = user_input.split()
+                num1 = float(str1)
+                num2 = float(str2)
+
+            except ValueError:
+
+                print("Invalid parameters. Parameters 2 and 3 must be valid floats. Please try again.")
+                print("Type 'help' for more information.")
+                continue
+
+            try:
+
+                calculation = CalculationFactory.create_calculations(operation, num1, num2)
+
+            except ValueError as ve:
+
+                print(ve)
+                print("Invalid operation. Please try again.")
+                print("Type 'help' for more information.")
+                continue
+
+            try:
+
+                result = calculation.execute()
+
+            except ZeroDivisionError:
+
+                print("Cannot divide by zero. Please try again.")
+                print("Type 'help' for more information.")
+                continue
+
+            except Exception as e:
+
+                print(e)
+                print(f"An error occurred: {e}. Please try again.")
+                print("Type 'help' for more information.")
+                continue
+
+            result_str: str = f"{calculation}"
+            print(f"result: {result_str}\n")
+            history.append(calculation)\
+            
+        except KeyboardInterrupt:
+
+            print("\nKeyboard Interrupt detected. Goodbye!")
+            sys.exit(0)
+
+        except EOFError:
+
+            print("\nEOF detected. Goodbye!")
+            sys.exit(0)
+
+
+if __name__ == "__main__":
+
+    calculator()
