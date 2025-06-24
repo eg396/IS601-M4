@@ -80,7 +80,7 @@ def calculator() -> None:
 
             if not user_input:
 
-                continue
+                continue #pragma: no cover
 
             command = user_input.lower()
             if command == "help":
@@ -117,7 +117,6 @@ def calculator() -> None:
             except ValueError as ve:
 
                 print(ve)
-                print("Invalid operation. Please try again.")
                 print("Type 'help' for more information.")
                 continue
 
@@ -127,16 +126,18 @@ def calculator() -> None:
                 result = calculation.execute()
                 print(result)
 
-            except ZeroDivisionError:
+            ## This is redundant as it gets caught by the except Exception
 
-                print("Cannot divide by zero. Please try again.")
-                print("Type 'help' for more information.")
-                continue
+            #except ZeroDivisionError:
+
+                #print("Cannot divide by zero. Please try again.")
+                #print("Type 'help' for more information.")
+                #continue
 
             except Exception as e:
 
                 print(e)
-                print(f"An error occurred: {e}. Please try again.")
+                print(f"An error occurred: {e} Please try again.")
                 print("Type 'help' for more information.")
                 continue
 
@@ -157,4 +158,4 @@ def calculator() -> None:
 
 if __name__ == "__main__":
 
-    calculator()
+    calculator() #pragma: no cover

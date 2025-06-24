@@ -160,3 +160,70 @@ def test_calculator_division(monkeypatch, capsys):
 
     captured = capsys.readouterr()
     assert "result: DivideCalculation: 1.0 Divide 2.0 = 0.5" in captured.out
+
+def test_calculator_division_by_zero(monkeypatch, capsys):
+
+    user_input = 'divide 1 0\nexit\n'
+    monkeypatch.setattr('sys.stdin', StringIO(user_input))
+
+    with pytest.raises(SystemExit):
+        calculator()
+
+    captured = capsys.readouterr()
+    assert "error occurred: Division by zero is not allowed." in captured.out
+
+def test_calculator_invalid_operation(monkeypatch, capsys):
+
+    user_input = 'invalid_operation 1 2\nexit\n'
+    monkeypatch.setattr('sys.stdin', StringIO(user_input))
+
+    with pytest.raises(SystemExit):
+        calculator()
+
+    captured = capsys.readouterr()
+    assert "Invalid calculation type: invalid_operation. Available types: add, subtract, multiply, divide" in captured.out
+
+def test_calculator_test_history(monkeypatch, capsys):
+
+    user_input = 'add 1 2\nsubtract 1 2\nhistory\nexit\n'
+    monkeypatch.setattr('sys.stdin', StringIO(user_input))
+
+    with pytest.raises(SystemExit):
+        calculator()
+
+    captured = capsys.readouterr()
+    assert "result: AddCalculation: 1.0 Add 2.0 = 3.0" in captured.out
+    assert "result: SubtractCalculation: 1.0 Subtract 2.0 = -1.0" in captured.out
+    assert "Calculation History:" in captured.out
+    assert "1. AddCalculation: 1.0 Add 2.0 = 3.0" in captured.out
+    assert "2. SubtractCalculation: 1.0 Subtract 2.0 = -1.0" in captured.out
+
+def test_calculator_keyboard_interrupt(monkeypatch, capsys):
+
+    def mock_input(prompt):
+
+        raise KeyboardInterrupt()
+    
+    monkeypatch.setattr('builtins.input', mock_input)
+
+    with pytest.raises(SystemExit) as exc_info:
+        calculator()
+
+    captured = capsys.readouterr()
+    assert "Keyboard Interrupt detected. Goodbye!" in captured.out
+    assert exc_info.value.code == 0
+
+def test_calculator_eof_error(monkeypatch, capsys):
+
+    def mock_input(prompt):
+
+        raise EOFError()
+    
+    monkeypatch.setattr('builtins.input', mock_input)
+
+    with pytest.raises(SystemExit) as exc_info:
+        calculator()
+
+    captured = capsys.readouterr()
+    assert "EOF detected. Goodbye!" in captured.out
+    assert exc_info.value.code == 0
