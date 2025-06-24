@@ -8,17 +8,6 @@ import pytest # type: ignore
 from io import StringIO
 from app.calculator import calculator, display_help, display_history
 
-## Monkeypatch for input handling
-
-def run_calculator_with_input(monkeypatch, inputs):
-    iterator = iter(inputs)
-    monkeypatch.setattr('builtins.input', lambda _: next(iterator))
-    captured_output = StringIO()
-    sys.stdout = captured_output
-    calculator()
-    sys.stdout = sys.__stdout__
-    return captured_output.getvalue()
-
 ## Tests
 
 def test_display_help(capsys):
