@@ -88,7 +88,7 @@ class CalculationFactory:
             type_lower = type.lower()
             if type_lower in cls._calculations:
 
-                raise ValueError (f"Calculation type {type_lower} is already registered.")
+                raise ValueError (f"Calculation type '{type_lower}' is already registered.")
             
             cls._calculations[type_lower] = subclass
             return subclass
