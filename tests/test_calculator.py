@@ -12,6 +12,9 @@ from app.calculator import calculator, display_help, display_history
 
 def test_display_help(capsys):
 
+    ## Test that help is displayed properly
+    ## Runs the help function and captures the output, then compares to expectation
+
     display_help()
     capture = capsys.readouterr()
     expected_output = """
@@ -41,6 +44,9 @@ def test_display_help(capsys):
 
 def test_display_history_empty(capsys):
 
+    ## Test that history is displayed properly
+    ## Runs the history function and captures the output, then checks if it is empty
+
     history = []
 
     display_history(history)
@@ -49,6 +55,9 @@ def test_display_history_empty(capsys):
     assert capture.out.strip() == "Error: No calculations in history."
 
 def test_display_history_nonempty(capsys):
+
+    ## Test that history is displayed properly
+    ## Runs the history function and captures the output, then compares to expectation
 
     history = [
         "AddCalculation: 15.0 add 5.0 = 20.0",
@@ -71,6 +80,9 @@ def test_display_history_nonempty(capsys):
 
 def test_calculator_quit(monkeypatch, capsys):
 
+    ## Test that the calculator exits properly
+    ## Runs the calculator using the 'exit' command
+
     user_input = 'exit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
 
@@ -84,6 +96,9 @@ def test_calculator_quit(monkeypatch, capsys):
 
 def test_calculator_help_command(monkeypatch, capsys):
 
+    ## Test that the calculator displays help properly
+    ## Runs the calculator using the 'help' command
+
     user_input = 'help\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
 
@@ -95,6 +110,9 @@ def test_calculator_help_command(monkeypatch, capsys):
     assert "Goodbye!" in captured.out
 
 def test_calculator_invalid_input(monkeypatch, capsys):
+
+    ## Test that the calculator displays the 'invalid input' user message properly
+    ## Runs the calculator using invalid input
 
     user_input = 'invalid input\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
@@ -108,6 +126,9 @@ def test_calculator_invalid_input(monkeypatch, capsys):
 
 def test_calculator_addition(monkeypatch, capsys):
 
+    ## Test that the calculator performs addition properly
+    ## Runs the calculator using the 'add' command
+
     user_input = 'add 1 2\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
 
@@ -118,6 +139,9 @@ def test_calculator_addition(monkeypatch, capsys):
     assert "result: AddCalculation: 1.0 Add 2.0 = 3.0" in captured.out
 
 def test_calculator_subtraction(monkeypatch, capsys):
+
+    ## Test that the calculator performs subtraction properly
+    ## Runs the calculator using the 'subtract' command
 
     user_input = 'subtract 1 2\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
@@ -130,6 +154,9 @@ def test_calculator_subtraction(monkeypatch, capsys):
 
 def test_calculator_multiplication(monkeypatch, capsys):
 
+    ## Test that the calculator performs multiplication properly
+    ## Runs the calculator using the 'multiply' command
+
     user_input = 'multiply 1 2\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
 
@@ -140,6 +167,9 @@ def test_calculator_multiplication(monkeypatch, capsys):
     assert "result: MultiplyCalculation: 1.0 Multiply 2.0 = 2.0" in captured.out
 
 def test_calculator_division(monkeypatch, capsys):
+
+    ## Test that the calculator performs division properly
+    ## Runs the calculator using the 'divide' command
 
     user_input = 'divide 1 2\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
@@ -152,6 +182,9 @@ def test_calculator_division(monkeypatch, capsys):
 
 def test_calculator_division_by_zero(monkeypatch, capsys):
 
+    ## Test that the calculator handles division by zero properly
+    ## Runs the calculator using the 'divide' command with zero as the divisor
+
     user_input = 'divide 1 0\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
 
@@ -163,6 +196,9 @@ def test_calculator_division_by_zero(monkeypatch, capsys):
 
 def test_calculator_invalid_operation(monkeypatch, capsys):
 
+    ## Test that the calculator handles invalid operations properly
+    ## Runs the calculator using an invalid operation
+
     user_input = 'invalid_operation 1 2\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
 
@@ -173,6 +209,9 @@ def test_calculator_invalid_operation(monkeypatch, capsys):
     assert "Invalid calculation type: invalid_operation. Available types: add, subtract, multiply, divide" in captured.out
 
 def test_calculator_test_history(monkeypatch, capsys):
+
+    ## Test that the calculator correctly displays history
+    ## Runs the calculator using several math operations and then the 'history' command
 
     user_input = 'add 1 2\nsubtract 1 2\nhistory\nexit\n'
     monkeypatch.setattr('sys.stdin', StringIO(user_input))
@@ -189,6 +228,9 @@ def test_calculator_test_history(monkeypatch, capsys):
 
 def test_calculator_keyboard_interrupt(monkeypatch, capsys):
 
+    ## Test that the calculator handles keyboard interrupts properly
+    ## Runs the calculator using a mock keyboard interrupt
+
     def mock_input(prompt):
 
         raise KeyboardInterrupt()
@@ -203,6 +245,9 @@ def test_calculator_keyboard_interrupt(monkeypatch, capsys):
     assert exc_info.value.code == 0
 
 def test_calculator_eof_error(monkeypatch, capsys):
+
+    ## Test that the calculator handles EOF errors properly
+    ## Runs the calculator using a mock EOF error
 
     def mock_input(prompt):
 

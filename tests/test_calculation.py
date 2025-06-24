@@ -10,6 +10,9 @@ from app.operations import Operations
 
 def test_calculation_repr_addition():
 
+    ## Test that the calculation representation is correct
+    ## runs the repr function on an addition calculation
+
     num1, num2 = 1.0, 2.0
     add_calc = AddCalculation(num1, num2)
     calc_repr = repr(add_calc)
@@ -19,6 +22,9 @@ def test_calculation_repr_addition():
     assert calc_repr == expected_repr
 
 def test_calculation_repr_subtraction():
+
+    ## Test that the calculation representation is correct
+    ## runs the repr function on a subtraction calculation
 
     num1, num2 = 1.0, 2.0
     sub_calc = SubtractCalculation(num1, num2)
@@ -30,6 +36,9 @@ def test_calculation_repr_subtraction():
 
 def test_calculation_repr_multiplication():
 
+    ## Test that the calculation representation is correct
+    ## runs the repr function on a multiplication calculation
+
     num1, num2 = 1.0, 2.0
     mul_calc = MultiplyCalculation(num1, num2)
     calc_repr = repr(mul_calc)
@@ -40,6 +49,9 @@ def test_calculation_repr_multiplication():
 
 def test_calculation_repr_division():
 
+    ## Test that the calculation representation is correct
+    ## runs the repr function on a division calculation
+
     num1, num2 = 1.0, 2.0
     div_calc = DivideCalculation(num1, num2)
     calc_repr = repr(div_calc)
@@ -49,6 +61,9 @@ def test_calculation_repr_division():
     assert calc_repr == expected_repr
 
 def test_factory_duplicate_register_handling():
+
+    ## Test that the factory handles duplicate registration
+    ## runs the register_calculation function twice, the second one being a duplicate add calculation
 
     with pytest.raises(ValueError) as exc_info:
         @CalculationFactory.register_calculation("add")
